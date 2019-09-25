@@ -1,0 +1,19 @@
+Package: GeneSelection
+Title: Generate selection method for diagnostics project
+Version: 1.0
+Authors@R: 
+    person(given = "Nirmalya",
+           family = "Bandyopadhyay",
+           role = c("aut", "cre"),
+           email = "nirmalya@broadinstitute.org",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Generate probes for PatH-Cap.
+Depends: R (>= 3.3.0), 
+         DESeq2, 
+            metap
+Imports: DESeq2,
+            metap
+License: What license it uses
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
