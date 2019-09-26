@@ -241,11 +241,13 @@ deseq_condwise <- function(dds, cond2, cond1, lfcth, padjth, altH = "greaterAbs"
 }
 
 print_logf <- function(lstr) {
+    logfile <- pkg.globals$logfile
     write(lstr, file = logfile, append = TRUE)
 }
 
 print_log <- function(lstr) {
     print(lstr)
+    logfile <- pkg.globals$logfile
     write(lstr, file = logfile, append = TRUE)
 }
 
@@ -276,7 +278,7 @@ get_lst <- function(lst, end_str) {
     return(ret_lst)
 }
 
-check_for_drop <- function(lgene, res_lst, basemean_lst, treated_term, untreated_tag, tp_len) {
+check_for_drop <- function(lgene, res_lst, basemean_lst, treated_term, untreated_tag, tp_len, pval_lim_raw) {
   
     pval_term <- "padj"
     pval_term_raw <- "pvalue"
@@ -421,6 +423,8 @@ get_full_str <- function(ret_lst, type_str) {
 
 select_genes <- function(gene_lst, tp_len, res_lst, basemean_lst, pval_lim_raw, treated_start, use_res) {
 
+    pval_logfile <- pkg.globals$pval_logfile
+
     count <- 1
     gene_cond_lst <- list()
     gene_cond_raw_lst <- list()
@@ -434,7 +438,7 @@ select_genes <- function(gene_lst, tp_len, res_lst, basemean_lst, pval_lim_raw, 
             treated_term <- paste0('sus_treated_time', j)
 
             untreated_tag <- "sus_untreated_time"
-            ret_j_su <- check_for_drop(lgene, res_lst, basemean_lst, treated_term, untreated_tag, tp_len)
+            ret_j_su <- check_for_drop(lgene, res_lst, basemean_lst, treated_term, untreated_tag, tp_len, pval_lim_raw)
             success_j_su <- ret_j_su$"success_j"
 
             ret_j_rt <- NA
@@ -443,9 +447,9 @@ select_genes <- function(gene_lst, tp_len, res_lst, basemean_lst, pval_lim_raw, 
             success_j_ru <- NA 
             if (use_res) {
                 untreated_tag <- "res_treated_time"
-                ret_j_rt <- check_for_drop(lgene, res_lst, basemean_lst, treated_term, untreated_tag, tp_len)
+                ret_j_rt <- check_for_drop(lgene, res_lst, basemean_lst, treated_term, untreated_tag, tp_len, pval_lim_raw)
                 untreated_tag <- "res_untreated_time"
-                ret_j_ru <- check_for_drop(lgene, res_lst, basemean_lst, treated_term, untreated_tag, tp_len)
+                ret_j_ru <- check_for_drop(lgene, res_lst, basemean_lst, treated_term, untreated_tag, tp_len, pval_lim_raw)
                 success_j_rt <- ret_j_rt$"success_j"
                 success_j_ru <- ret_j_ru$"success_j"
             }

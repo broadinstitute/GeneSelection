@@ -1,3 +1,5 @@
+pkg.globals <- new.env()
+
 #' Function to select genes from time course Abx RNAseq data
 #'
 #' This is the main function to generate genes from Abx RNAseq time course data
@@ -37,6 +39,9 @@ selectGenes <- function(count_file, outdir, stag, l_cand = 1, base_lim = 50, use
     pval_logfile <- paste0(outdir, "/", stag, "_pval_logfile.txt")
     print(pval_logfile)
     file.create(pval_logfile)
+
+    pkg.globals$logfile <- logfile
+    pkg.globals$pval_logfile <- pval_logfile
 
     print(paste0("count_file: " , count_file))
     count_tbl <- get_count_tbl(count_file)
@@ -127,7 +132,9 @@ selectGenes <- function(count_file, outdir, stag, l_cand = 1, base_lim = 50, use
 
     print("Starting gene selection procedure..")
     gene_lst <- rownames(countData)
+
     pval_lim_raw <- 0.05
+
     gene_res <- select_genes(gene_lst, tp_len, res_lst, basemean_lst, pval_lim_raw, treated_start, use_res)
     # Now process per gene.
     gene_cond_lst <- gene_res$"gene_cond_lst"

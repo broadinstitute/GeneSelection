@@ -1,3 +1,5 @@
+pkg.globals <- new.env()
+
 #' Function to select genes from Mtb time course Abx RNAseq data
 #'
 #' This is the main function to generate genes from Mtb Abx RNAseq time course 
@@ -38,6 +40,8 @@ selectGenesMtb <- function(count_file, outdir, stag, sus, treated, untreated,
     print(pval_logfile)
     file.create(pval_logfile)
 
+    pkg.globals$logfile <- logfile
+    pkg.globals$pval_logfile <- pval_logfile
 
     print(paste0("count_file: " , count_file))
     count_tbl <- get_count_tbl(count_file)
